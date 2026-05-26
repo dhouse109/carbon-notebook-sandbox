@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TagsRouteImport } from './routes/tags'
+import { Route as StyleGuideRouteImport } from './routes/style-guide'
 import { Route as ResourceRouteImport } from './routes/resource'
 import { Route as PracticeRouteImport } from './routes/practice'
 import { Route as CategoriesRouteImport } from './routes/categories'
@@ -21,6 +22,11 @@ import { Route as PostsSlugRouteImport } from './routes/posts.$slug'
 const TagsRoute = TagsRouteImport.update({
   id: '/tags',
   path: '/tags',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StyleGuideRoute = StyleGuideRouteImport.update({
+  id: '/style-guide',
+  path: '/style-guide',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourceRoute = ResourceRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/categories': typeof CategoriesRoute
   '/practice': typeof PracticeRoute
   '/resource': typeof ResourceRoute
+  '/style-guide': typeof StyleGuideRoute
   '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/categories': typeof CategoriesRoute
   '/practice': typeof PracticeRoute
   '/resource': typeof ResourceRoute
+  '/style-guide': typeof StyleGuideRoute
   '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/categories': typeof CategoriesRoute
   '/practice': typeof PracticeRoute
   '/resource': typeof ResourceRoute
+  '/style-guide': typeof StyleGuideRoute
   '/tags': typeof TagsRoute
   '/posts/$slug': typeof PostsSlugRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/practice'
     | '/resource'
+    | '/style-guide'
     | '/tags'
     | '/posts/$slug'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/practice'
     | '/resource'
+    | '/style-guide'
     | '/tags'
     | '/posts/$slug'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/categories'
     | '/practice'
     | '/resource'
+    | '/style-guide'
     | '/tags'
     | '/posts/$slug'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   CategoriesRoute: typeof CategoriesRoute
   PracticeRoute: typeof PracticeRoute
   ResourceRoute: typeof ResourceRoute
+  StyleGuideRoute: typeof StyleGuideRoute
   TagsRoute: typeof TagsRoute
   PostsSlugRoute: typeof PostsSlugRoute
 }
@@ -141,6 +154,13 @@ declare module '@tanstack/react-router' {
       path: '/tags'
       fullPath: '/tags'
       preLoaderRoute: typeof TagsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/style-guide': {
+      id: '/style-guide'
+      path: '/style-guide'
+      fullPath: '/style-guide'
+      preLoaderRoute: typeof StyleGuideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resource': {
@@ -202,9 +222,20 @@ const rootRouteChildren: RootRouteChildren = {
   CategoriesRoute: CategoriesRoute,
   PracticeRoute: PracticeRoute,
   ResourceRoute: ResourceRoute,
+  StyleGuideRoute: StyleGuideRoute,
   TagsRoute: TagsRoute,
   PostsSlugRoute: PostsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
