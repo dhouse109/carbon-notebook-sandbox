@@ -1,26 +1,37 @@
+// Jekyll: index.html (layout: home-custom) + _layouts/home-custom.html
 import { createFileRoute } from "@tanstack/react-router";
+import { PageLayout } from "@/components/PageLayout";
+import { HomeIntroSection } from "@/components/HomeIntroSection";
+import { FeaturedCategorySection } from "@/components/FeaturedCategorySection";
+import { featuredCategories } from "@/data/categories";
+
+const toc = [
+  { id: "introduction", label: "Introduction" },
+  ...featuredCategories.map((c) => ({ id: c.name, label: c.display_name })),
+];
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Software Studies — Damien House" },
+      { name: "description", content: "Notes, projects, experiments, and longer-running threads on software as a practice." },
+      { property: "og:title", content: "Software Studies" },
+      { property: "og:description", content: "Notes and lab work from Damien House on platforms, AI, and tools." },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function Home() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <PageLayout toc={toc}>
+      <h1 className="sr-only">Software Studies</h1>
+      <HomeIntroSection />
+      <div className="categories-showcase mt-12 space-y-12">
+        {featuredCategories.map((c) => (
+          <FeaturedCategorySection key={c.name} {...c} />
+        ))}
+      </div>
+    </PageLayout>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
