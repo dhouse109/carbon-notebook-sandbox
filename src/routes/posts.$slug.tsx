@@ -51,7 +51,7 @@ function PostPage() {
         <header className="page__title-wrap border-b border-border pb-5">
           <p className="page__categories font-sans text-xs uppercase tracking-wide text-muted-foreground">
             {post.categories
-              .map((c) => featuredCategories.find((f) => f.name === c)?.display_name ?? c)
+              .map((c: string) => featuredCategories.find((f) => f.name === c)?.display_name ?? c)
               .join(" · ")}
           </p>
           <h1 className="page__title mt-2 font-sans text-3xl text-text-bright">{post.title}</h1>
@@ -108,7 +108,7 @@ author:
           </p>
 
           <div className="mt-8 flex flex-wrap gap-2">
-            {post.tags.map((t) => (
+            {post.tags.map((t: string) => (
               <span
                 key={t}
                 className="rounded-sm border border-border bg-surface px-2 py-0.5 font-sans text-xs uppercase tracking-wide text-muted-foreground"
