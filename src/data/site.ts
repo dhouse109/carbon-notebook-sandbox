@@ -3,13 +3,13 @@
 
 export const site = {
   title: "Software Studies",
-  tagline: "exploring the art and science of software engineering",
+  tagline: "​",
   url: "https://damien.house",
 };
 
 export const author = {
   name: "Damien House",
-  bio: "exploring the art and science of software engineering",
+  bio: "​",
   location: "On the web",
   links: [
     { label: "109.studio", href: "https://109.studio" },
