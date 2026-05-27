@@ -96,7 +96,7 @@ function PostPage() {
 minimal_mistakes_skin: "software-studies-carbon"
 author:
   name: "Damien House"
-  bio: "exploring the art and science of software engineering"`}
+  bio: "​"`}
           </CodeBlock>
 
           <h2 id="what-this-changes" className="border-b border-border pb-2 font-sans text-xl text-text-bright">
