@@ -1,3 +1,4 @@
+// SAMPLE entries for layout testing — not an export of the real 117-item list in _pages/resource.md.
 // Curated reading shelf. In Jekyll this would live as a static page under
 // /resource/index.md or be sourced from _data/resources.yml.
 export const resourceGroups = [
@@ -46,5 +47,13 @@ export const resourceGroups = [
       { title: "Design Science Research in Information Systems", by: "Hevner et al." },
       { title: "Reflective Practitioner", by: "Donald Schön" },
     ],
+  },
+  {
+    name: "Thinking",
+    // Deliberately long group to test density.
+    items: Array.from({ length: 14 }, (_, i) => ({
+      title: `Sample reference ${i + 1}${i % 4 === 0 ? " — with a longer title that should wrap cleanly on narrow screens" : ""}`,
+      by: "Fixture",
+    })),
   },
 ];

@@ -1,3 +1,4 @@
+import type { ErrorComponentProps } from "@tanstack/react-router";
 // Framework boundary note:
 // TanStack Start hosts this prototype. Routing, data fetching, and React hooks
 // are scaffolding only — do NOT build features that depend on them. Every
@@ -33,7 +34,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   return (
@@ -107,10 +108,29 @@ function RootComponent() {
       <div className="min-h-screen bg-background">
         <SiteMasthead />
         <Outlet />
-        <footer className="mt-16 border-t border-border">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-4 py-6 font-sans text-xs text-muted-foreground sm:px-6 lg:px-8">
-            <span>© {new Date().getFullYear()} Damien House · {site.tagline}</span>
-            <span className="opacity-70">Theme: Software Studies Carbon · prototype</span>
+        {/* Jekyll: _includes/footer.html — .page__footer-copyright.
+            Feedback link mirrors the live repo issue form (external; no prototype form). */}
+        <footer className="page__footer mt-16 border-t border-border">
+          <div className="page__footer-copyright mx-auto max-w-6xl space-y-2 px-4 py-6 font-sans text-xs text-muted-foreground sm:px-6 lg:px-8">
+            <p>
+              © {new Date().getFullYear()}{" "}
+              <a href="https://109.studio" className="text-link hover:text-link-hover">109.studio</a>.{" "}
+              <a
+                href="https://github.com/dhouse109/web-109-damienhouse-live/issues/new?template=feedback.yml&labels=feedback&title=Feedback%3A%20Software%20Studies"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-link hover:text-link-hover"
+              >
+                Submit feedback on GitHub
+              </a>
+              .
+            </p>
+            <p>
+              The reference site is powered by{" "}
+              <a href="https://jekyllrb.com" rel="nofollow" className="hover:text-link-hover">Jekyll</a> &amp;{" "}
+              <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow" className="hover:text-link-hover">Minimal Mistakes</a>.
+              {" "}This page is a React design prototype of the Software Studies Carbon skin.
+            </p>
           </div>
         </footer>
       </div>

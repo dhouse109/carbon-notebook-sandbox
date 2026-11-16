@@ -7,6 +7,8 @@ import { useEffect, useState, type RefObject } from "react";
 export interface TocItem {
   id: string;
   label: string;
+  /** 3 = nested (h3). Maps to MM .toc__menu nested <ul>. */
+  level?: 2 | 3;
 }
 
 interface Props {
@@ -42,7 +44,7 @@ export function StickyToc({ items, scanContainer, title = "Table of Contents" }:
           <li key={i.id}>
             <a
               href={`#${i.id}`}
-              className="block border-l-2 border-transparent py-1 pl-3 font-sans text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+              className={`block border-l-2 border-transparent py-1 font-sans text-muted-foreground transition-colors hover:border-primary hover:text-foreground ${i.level === 3 ? "pl-6 text-xs" : "pl-3"}`}
             >
               {i.label}
             </a>

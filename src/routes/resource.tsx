@@ -11,6 +11,9 @@ export const Route = createFileRoute("/resource")({
       { title: "Resource — Software Studies" },
       { name: "description", content: "A curated technical reference shelf." },
       { property: "og:title", content: "Resource — Software Studies" },
+      { property: "og:description", content: "A curated technical reference shelf in seven groups." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ResourcePage,
@@ -23,6 +26,9 @@ function ResourcePage() {
       <p className="mt-2 max-w-2xl text-muted-foreground">
         A reference shelf — the books, papers, and writers I keep returning to. Grouped by the
         reason I open them, not by topic.
+      </p>
+      <p className="mt-2 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">
+        Sample entries · the real page has 117 references across seven groups
       </p>
 
       <div className="mt-10 space-y-10">

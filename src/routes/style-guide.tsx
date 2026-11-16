@@ -8,12 +8,14 @@ import { ArchiveItemCard } from "@/components/ArchiveItemCard";
 import { CodeBlock } from "@/components/CodeBlock";
 import { posts } from "@/data/posts";
 import { useState } from "react";
+import { frontMatterIntroText } from "@/components/HomeIntroSection";
 
 const toc = [
   { id: "framework-boundary", label: "Framework boundary" },
   { id: "color-tokens", label: "Color tokens" },
   { id: "typography", label: "Typography" },
   { id: "components", label: "Component samples" },
+  { id: "nov-2026", label: "Nov 2026 refresh" },
   { id: "before-after", label: "Before / after tokens" },
   { id: "port-back", label: "Port back to Jekyll" },
 ];
@@ -219,6 +221,59 @@ $primary-color: #ca884b !default;`}
         <blockquote className="mt-3 border-l-2 border-primary bg-surface px-5 py-3 italic text-foreground">
           Documentation is the API your team uses to call the rest of the team.
         </blockquote>
+      </section>
+
+      {/* Nov 2026 reference refresh ----------------------------------------- */}
+      <section className="mt-12">
+        <h2 id="nov-2026" className="border-b border-border pb-2 font-sans text-xl text-text-bright">
+          Nov 2026 refresh — new patterns
+        </h2>
+
+        <h3 className="mt-6 font-sans text-sm uppercase tracking-wide text-muted-foreground">
+          Homepage intro copy — comparison (Decision A)
+        </h3>
+        <div className="mt-3 grid gap-4 md:grid-cols-2">
+          <div className="rounded-sm border border-primary bg-surface p-4 text-sm">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-primary">On homepage · rendered by _layouts/home-custom.html</p>
+            <p className="mt-2">This portfolio explores how research-driven engineering and Human-Centered Design can lead to more thoughtful, effective software…</p>
+          </div>
+          <div className="rounded-sm border border-border bg-surface p-4 text-sm">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-muted-foreground">Not rendered · index.html front matter intro_text</p>
+            <p className="mt-2 text-muted-foreground">{frontMatterIntroText}</p>
+          </div>
+        </div>
+
+        <h3 className="mt-8 font-sans text-sm uppercase tracking-wide text-muted-foreground">
+          h1#introduction.home__title
+        </h3>
+        <p className="mt-2 font-sans text-3xl text-text-bright">Introduction</p>
+
+        <h3 className="mt-8 font-sans text-sm uppercase tracking-wide text-muted-foreground">
+          ul.resume-variants + details.resume-archive
+        </h3>
+        <ul className="resume-variants mt-3 space-y-2 font-sans">
+          <li><span aria-hidden className="text-primary">→</span> <a href="#" className="text-link hover:text-link-hover">Role-specific resume</a></li>
+        </ul>
+        <details className="resume-archive mt-3 rounded-sm border border-border bg-surface">
+          <summary className="cursor-pointer px-4 py-2 font-sans text-sm hover:bg-surface-elevated">View previous resumes, 1998–2025</summary>
+          <p className="border-t border-border px-4 py-3 font-sans text-sm text-muted-foreground">Fixture entry</p>
+        </details>
+
+        <div className="mt-8 overflow-x-auto rounded-sm border border-border">
+          <table className="w-full font-sans text-sm">
+            <thead className="bg-surface-elevated text-left text-xs uppercase tracking-wide text-muted-foreground">
+              <tr><th className="px-3 py-2">Prototype</th><th className="px-3 py-2">Jekyll equivalent</th></tr>
+            </thead>
+            <tbody className="text-muted-foreground">
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Introduction heading + TOC</td><td className="px-3 py-2">_layouts/home-custom.html intro_heading capture, home_toc: true; .home__title in main.scss</td></tr>
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Resume variants</td><td className="px-3 py-2">_pages/about.md &lt;ul class="resume-variants"&gt;; .resume-variants Sass</td></tr>
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Resume archive</td><td className="px-3 py-2">_pages/about.md native &lt;details class="resume-archive"&gt;; style summary marker + focus in main.scss</td></tr>
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Nested TOC (level 3)</td><td className="px-3 py-2">kramdown h3 → MM .toc__menu nested ul (automatic)</td></tr>
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Footer feedback</td><td className="px-3 py-2">_includes/footer.html .page__footer-copyright; links to the GitHub issue form (.github/ISSUE_TEMPLATE/feedback.yml)</td></tr>
+              <tr className="border-t border-border"><td className="px-3 py-2 text-foreground">Resource "Thinking" group</td><td className="px-3 py-2">_pages/resource.md markdown section; density is CSS only</td></tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {/* 5. Before / after --------------------------------------------------- */}

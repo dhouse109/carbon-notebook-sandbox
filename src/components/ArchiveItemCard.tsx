@@ -21,6 +21,7 @@ export function ArchiveItemCard({ post, showMeta = false }: Props) {
           {post.title}
         </Link>
       </h3>
+      <p className="mt-1 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">Sample post · design fixture</p>
       <p className="archive__item-excerpt mt-2 text-muted-foreground">{post.excerpt}</p>
       {showMeta && (
         <p className="archive__item-meta mt-3 font-sans text-xs uppercase tracking-wide text-muted-foreground">

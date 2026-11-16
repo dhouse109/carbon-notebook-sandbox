@@ -16,7 +16,9 @@ export const Route = createFileRoute("/")({
       { title: "Software Studies — Damien House" },
       { name: "description", content: "Notes, projects, experiments, and longer-running threads on software as a practice." },
       { property: "og:title", content: "Software Studies" },
-      { property: "og:description", content: "Notes and lab work from Damien House on platforms, AI, and tools." },
+      { property: "og:description", content: "Research-driven engineering and human-centered design from Damien House." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Home,
@@ -25,7 +27,6 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <PageLayout toc={toc}>
-      <h1 className="sr-only">Software Studies</h1>
       <HomeIntroSection />
       <div className="categories-showcase mt-12 space-y-12">
         {featuredCategories.map((c) => (

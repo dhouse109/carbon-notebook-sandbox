@@ -54,6 +54,7 @@ function PostPage() {
               .map((c: string) => featuredCategories.find((f) => f.name === c)?.display_name ?? c)
               .join(" · ")}
           </p>
+          <p className="mt-2 inline-block rounded-sm border border-border px-2 py-0.5 font-sans text-[10px] uppercase tracking-widest text-muted-foreground">Sample post · design fixture, not a published Jekyll post</p>
           <h1 className="page__title mt-2 font-sans text-3xl text-text-bright">{post.title}</h1>
           <p className="page__meta mt-3 font-sans text-xs uppercase tracking-wide text-muted-foreground">
             <time dateTime={post.date}>
