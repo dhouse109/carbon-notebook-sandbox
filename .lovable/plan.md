@@ -39,9 +39,11 @@ Read-only review against the bundle (pinned Jekyll commit `f5187d3`). No code ha
 
 Unchanged: `site.ts` (tagline, bio), `AuthorSidebar` (DH avatar), `SiteMasthead`, categories, posts data, Categories, Tags and Archive pages, all nine routes.
 
-## Decisions needed before implementation
+## Approved decisions
 
-- **A. Homepage intro copy:** keep the front-matter "This site is where I keep notes..." text, switch to the rendered "This portfolio explores..." text, or show both on the Style Guide for comparison.
-- **B. About "Ideas I return to":** remove it to match Jekyll, or keep it as a sandbox experiment.
-- **C. Avatar:** keep "DH", or use the animated gif (you would need to supply the image).
-- **D. Footer feedback link:** point it at the real live-repo issue form, or make it an inert example link.
+- **A.** Homepage uses the rendered "This portfolio explores..." copy. The front-matter "This site is where I keep notes..." copy is shown only on the Style Guide for comparison.
+- **B.** Remove "Ideas I return to" from About. Archive entries are labelled fixtures with no fake document links.
+- **C.** Keep the "DH" avatar.
+- **D.** Footer feedback links to the real live-repo GitHub issue form and opens in a new tab. The footer says Jekyll and Minimal Mistakes power the reference site, not this prototype.
+
+When finished, I will report the changed files, the intentional differences that remain, and a testing checklist. No publishing, and neither Jekyll repo is touched.
