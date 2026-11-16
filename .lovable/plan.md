@@ -1,122 +1,47 @@
+# Reference refresh (Nov 10, 2026) — review and proposed plan
 
-# damien.house Theme Sandbox — Revised Plan
+Read-only review against the bundle (pinned Jekyll commit `f5187d3`). No code has changed.
 
-A TanStack Start + React + TypeScript visual sandbox for the Software Studies Carbon Jekyll skin. Goal: experiment with theme refinements that translate cleanly back to the Minimal Mistakes Jekyll repo. Plain editorial, warm carbon-dark, no SaaS hero/animation/dashboard energy.
+## Review
 
-## Framework boundary note (rendered on Style Guide and as a code comment in `__root.tsx`)
+| Area | Status | Notes |
+| --- | --- | --- |
+| Carbon color tokens and the three fonts | Already aligned | Skin Sass is byte-identical to the May upload. No change. |
+| Main navigation (6 items, same order) | Already aligned | Style Guide link stays as a sandbox-only extra. |
+| Four featured categories (ids, labels, order) | Already aligned | |
+| `.archive__item` cards, author sidebar layout, sticky TOC layout | Already aligned | |
+| Port Back to Jekyll section, Jekyll mapping comments | Already aligned | Add rows for the new pieces only. |
+| Blank tagline and author bio | Intentional difference | Kept. |
+| "DH" avatar placeholder (Jekyll uses `walken-on-the-moon.gif`) | Intentional difference | Kept unless you approve (Decision C). |
+| 12 sample posts, `/posts/$slug` routes | Intentional difference | Kept as fixtures. Add a visible "design fixture" label. |
+| Style Guide route | Intentional difference | Kept. |
+| Homepage intro copy | **Inconsistency, needs your call** | Sandbox shows the front-matter `intro_text` ("This site is where I keep notes..."). Jekyll actually renders "This portfolio explores how research-driven engineering...". See Decision A. |
+| Homepage heading/TOC | Outdated | Jekyll now shows a visible `h1#introduction` "Introduction" (`home_toc: true`); sandbox hides it (`sr-only`). |
+| About structure | Outdated | Jekyll: What I do / How I work / Resume / Archive (h3). Sandbox has an extra "Ideas I return to" and no resume variants or archive. |
+| Practice page | Outdated | Jekyll is a long-form "Software Studies — A Collaborative Framework for Product-Focused R&D" with 6 sections and 2 sub-tracks. Sandbox has a short 3-section version. |
+| Resource groups | Outdated | Jekyll has 7 groups (adds **Thinking**) and 117 entries; sandbox has 6 groups and 16. |
+| Footer | Outdated | Jekyll credits 109.studio, has "Submit feedback on GitHub", and Jekyll / Minimal Mistakes credits. |
+| Search, PDF hosting, RSS, issue form, deployment, `_config.yml`/Gemfile | Jekyll-only | Not built. |
+| Developer Relations resume (HTML comment only) | Jekyll-only | Not shown. |
 
-> TanStack Start is the prototype host only. Treat routing, data fetching, and hooks as scaffolding — do not build features that depend on them. Every visual decision (tokens, type, spacing, components) must map back to a Jekyll/Minimal Mistakes equivalent.
+## Plan, file by file
 
-## Design tokens (`src/styles.css`)
+1. `src/components/HomeIntroSection.tsx` — show a visible "Introduction" heading (`h1#introduction.home__title`) styled like the Jekyll home title. Intro copy depends on Decision A. Structure and classes otherwise unchanged.
+2. `src/routes/index.tsx` — remove the hidden `h1` so there is only one. Keep the TOC array (Introduction + 4 categories). Layout, cards, head metadata unchanged.
+3. `src/styles.css` — add only spacing rules for `.home__title`, `.intro-section`, `.resume-variants`, and `details.resume-archive` (summary marker, focus ring, open state) using existing tokens. **No token or font changes.**
+4. `src/routes/about.tsx` — reorder to What I do / How I work / Resume, with an Archive h3 (`resume-archive`). Add a `.resume-variants` list: Staff AI Engineer and Lead Full-Stack Engineer, linking to the Jekyll PDF paths (marked as prototype links; no PDFs copied). Add a native `<details class="resume-archive">` with summary "View previous resumes, 1998–2025" and a few placeholder entries labelled as fixtures. The "Ideas I return to" section is removed only if you approve (Decision B). Use the real intro opening sentence; rest of the copy is unchanged.
+5. `src/routes/practice.tsx` — rebuild as the long-form page: the real title and the six headings, with the two tracks as h3s. Section bodies are short placeholders under a visible "abbreviated fixture" note, using lists, italics and one blockquote to test the type. TOC includes the h3s. The 109.studio link stays.
+6. `src/components/StickyToc.tsx` — add an optional `level` field on items for an indented second level. Explicit array approach unchanged.
+7. `src/data/resources.ts` and `src/routes/resource.tsx` — add the seventh group, **Thinking**, with a few clearly sample entries, and lengthen one group to test long lists. Add a small note that entries are samples, not the real 117-item list.
+8. `src/routes/__root.tsx` (footer) — match the Jekyll footer: "© year 109.studio", an external "Submit feedback on GitHub" link to the live repo issue form, and "Powered by Jekyll & Minimal Mistakes". Keep a small "prototype" marker. No form, no backend.
+9. `src/components/ArchiveItemCard.tsx` / `src/routes/posts.$slug.tsx` — add a small "sample post" label so fixtures are never mistaken for published posts.
+10. `src/routes/style-guide.tsx` — add samples for the resume variants list, the resume archive details, and the Introduction heading. Add port-map rows for footer, `home_toc`, `.resume-variants`, and `.resume-archive`. Tokens and sections otherwise unchanged.
 
-Carbon palette as CSS vars mapped into Tailwind via `@theme inline`. No hard-coded colors in components. Each var carries a comment naming its Sass counterpart in `_software-studies-carbon.scss`.
+Unchanged: `site.ts` (tagline, bio), `AuthorSidebar` (DH avatar), `SiteMasthead`, categories, posts data, Categories, Tags and Archive pages, all nine routes.
 
-- `--background` #12110f → `$background-color`
-- `--foreground` #d0c6b8 → `$text-color`
-- `--muted-foreground` #9b9184 → `$muted-text-color`
-- `--text-bright` #f3eee6
-- `--primary` #ca884b → `$primary-color`
-- `--link` #b8a06f, `--link-hover` ~#cdb787 → `$link-color`, `lighten(...,9%)`
-- `--masthead-link` #aaa197, `--masthead-link-hover` #eee8dc
-- `--border` #342d25 → `$border-color`
-- `--surface` #1a1713 → `$code-background-color`, `.archive__item` bg
-- `--surface-elevated` #221d18 → `$code-background-color-dark`, hover surface
-- `--toc-title-bg` #342d25
-- Syntax tokens base08..base0e
+## Decisions needed before implementation
 
-Fonts loaded via Google Fonts in `__root.tsx` head: Source Serif 4, Space Grotesk, Source Code Pro.
-
-## Routes (file-based)
-
-```
-__root.tsx          shell, fonts, SiteMasthead, footer
-index.tsx           Home
-about.tsx
-categories.tsx
-tags.tsx
-archive.tsx
-resource.tsx
-practice.tsx
-posts.$slug.tsx
-style-guide.tsx
-```
-
-Each route owns `head()` with its own title/description/og.
-
-## Components (`src/components/`) — every file opens with a Jekyll mapping comment
-
-- `SiteMasthead` — `// Jekyll: _data/navigation.yml + MM .masthead / .greedy-nav`. Renders `<header className="masthead"><nav className="greedy-nav">…</nav></header>` so the MM class names are visible.
-- `AuthorSidebar` — `// Jekyll: _config.yml author.* + MM author profile (.sidebar, .author__avatar, .author__name, .author__bio, .author__urls)`. Reuses those class names.
-- `StickyToc` — `// Jekyll: toc: true, toc_sticky: true, .toc, .toc__menu, .sidebar__right`. **Accepts an explicit `items: TocItem[]` prop (preferred, maps to Jekyll's static TOC). Optional `scanContainer` ref enables runtime heading scan as an enhancement only.**
-- `PageLayout` — three-column grid `[author 240px] [content 1fr] [toc 220px]`, collapses to single column under `lg`. Renders `<main className="page page__content">`.
-- `HomeIntroSection` — `// Jekyll: index.html front matter intro_text + _layouts/home-custom.html .intro-section`. Uses the exact intro_text from `index.html`.
-- `FeaturedCategorySection` — `// Jekyll: page.featured_categories loop in _layouts/home-custom.html`. Renders `.category-section` with `.category-title`, `.category-description-intro-content`, `.archive__list`.
-- `ArchiveItemCard` / `ArchiveList` — `// Jekyll: .archive__item, .archive__item-title, .archive__item-excerpt, .archive__item-meta`. Class names preserved.
-- `TaxonomyIndex` — shared by Categories/Tags.
-- `PostLayout` — `// Jekyll: _layouts/single.html`. Title, `.page__meta` (date, categories, tags, read time), body, `RelatedPosts`.
-- `ResourceList` — grouped sections (Direction, Inspiration, Method, Planning, Philosophy, Research).
-- `PracticePage` — reflective copy bridging to 109.studio; one small external link, no marketing CTA.
-- `ThemeTokenPanel` — swatches with hex + CSS var name + Sass var name + Jekyll file path.
-- `CodeBlock` — `<div className="highlighter-rouge"><pre><code>…</code></pre></div>` with monospace surface.
-- `RelatedPosts`.
-
-## Sample data (`src/data/`)
-
-- `site.ts` — site title/tagline, author, `mainNav` (matches `_data/navigation.yml` exactly: About, Categories, Tags, Archive, Resource, Practice — no Schedule).
-- `categories.ts` — the four featured categories with the exact slugs + descriptions from `index.html`.
-- `posts.ts` — ~12 sample posts (3 per category) with title/date/categories/tags/excerpt/readTime. Helpers: `postsByCategory`, `postsByYear`, `allTags`, `postBySlug`.
-- `resources.ts` — grouped reading list.
-
-## Page-by-page TOC arrays (explicit, not scanned)
-
-Every long page declares its TOC inline so it mirrors Jekyll's static `toc:` behavior. Example for About:
-
-```ts
-const aboutToc = [
-  { id: "what-i-do", label: "What I do" },
-  { id: "how-i-work", label: "How I work" },
-  { id: "ideas-i-return-to", label: "Ideas I return to" },
-  { id: "resume", label: "Resume" },
-];
-```
-
-`StickyToc` consumes that array. The optional scan mode is documented but off by default.
-
-## Homepage intro (verbatim from `index.html` front matter)
-
-> This site is where I keep notes, projects, experiments, and longer-running threads from my work as a technical leader and hands-on architect. Some of it is polished. Some of it is closer to a lab notebook. The common thread is software as a practice: building systems, studying how they work, and using that process to think more clearly about platforms, AI, tools, and teams.
-
-No alternate marketing copy. No second hero. The four featured category sections follow directly underneath, each rendering 3 archive cards.
-
-## Style Guide route — expanded
-
-Sections in order:
-
-1. **Framework boundary note** — the paragraph above.
-2. **Color tokens** — swatch grid. Each swatch shows: hex, CSS var name, Sass var name, the Jekyll file that owns it (`_sass/minimal-mistakes/skins/_software-studies-carbon.scss` or `assets/css/main.scss`).
-3. **Typography samples** — serif body, sans headings, mono code.
-4. **Component samples** — links, buttons, `.archive__item`, code block, `.toc`, author sidebar, resource list row.
-5. **Before / After token comparison** — table with columns: *Token* · *Current Carbon value* · *Experimental value* · *Likely Sass variable* · *Jekyll file to edit*. Two or three worked examples (e.g. nudging `$primary-color`, softening `$border-color`, brightening `$link-color`).
-6. **Port Back to Jekyll** — the dedicated section you requested:
-   - Copyable block of `:root { --… }` CSS variables.
-   - Copyable block of `$…: #…;` Sass variables formatted for `_software-studies-carbon.scss`.
-   - Mapping table: prototype token → Sass variable → file path.
-   - **Safe to port** list: palette hex changes, font-family swaps, surface/border refinements, hover surface, TOC title bg.
-   - **Prototype-only, do NOT port** list: TanStack route structure, React component composition, any Tailwind utility classes, the explicit-TOC array shape, the page-layout grid (Jekyll uses MM's existing grid).
-
-## Layout behavior
-
-- Desktop ≥ lg: 3-column grid with sticky TOC and author sidebar.
-- Tablet: author collapses to a top compact card, TOC hidden.
-- Mobile (≤sm): single column, masthead wraps; reading measure ~720px.
-- Sticky TOC: `position: sticky; top: 5rem`.
-
-## What this prototype intentionally does NOT do
-
-- No SaaS hero, animated gradient, chatbot, service cards, per-page marketing CTAs, dashboard panels, or heavy animation.
-- No light mode toggle, no Schedule nav item, no search, no comments, no real markdown rendering (sample post bodies are JSX).
-- No backend, no auth.
-
-## Deliverable
-
-Nine routes navigable from the masthead. Carbon skin applied consistently via tokens. Style Guide gives Damien the exact strings to paste into `_software-studies-carbon.scss` and the boundaries of what should and should not travel back to Jekyll.
+- **A. Homepage intro copy:** keep the front-matter "This site is where I keep notes..." text, switch to the rendered "This portfolio explores..." text, or show both on the Style Guide for comparison.
+- **B. About "Ideas I return to":** remove it to match Jekyll, or keep it as a sandbox experiment.
+- **C. Avatar:** keep "DH", or use the animated gif (you would need to supply the image).
+- **D. Footer feedback link:** point it at the real live-repo issue form, or make it an inert example link.
